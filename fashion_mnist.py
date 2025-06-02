@@ -4,8 +4,8 @@ from network import Dense, Sigmoid, Convolutional, Reshape, Network, cross_entro
 
 # load MNIST using PyTorch
 transform = transforms.ToTensor()
-train_dataset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
-test_dataset = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
+train_dataset = datasets.FashionMNIST(root='./data', train=True, download=True, transform=transform)
+test_dataset = datasets.FashionMNIST(root='./data', train=False, download=True, transform=transform)
 
 def preprocess_data(x: torch.Tensor, y: torch.Tensor, device: torch.device):
         x = x.reshape(x.shape[0], 1, 28, 28)
@@ -13,9 +13,11 @@ def preprocess_data(x: torch.Tensor, y: torch.Tensor, device: torch.device):
         y = torch.nn.functional.one_hot(y, num_classes=10)
         y = y.reshape(y.shape[0], 10, 1)
         
-        return x.to(device), y.to(device)
-
-
+        x.to(device)
+        y.to(device)
+        
+        return x, y
+    
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -25,15 +27,23 @@ def main():
     layers = [
         Convolutional((1, 28, 28), 3, 5, device),
         Sigmoid(device),
-        Reshape((5, 26, 26), (5 * 26 * 26, 1), device),
-        Dense((5 * 26 * 26, 100), device),
-        Sigmoid(device),
-        Dense((100, 10), device),
-        Sigmoid(device)
         
+        Convolutional((5, 26, 26), 3, 5, device),
+        Sigmoid(device),
+        
+        Convolutional((5, 24, 24), 3, 5, device),
+        Sigmoid(device),
+        
+        Reshape((5, 22, 22), (5 * 22 * 22, 1), device),
+        
+        Dense((5 * 22 * 22, 100), device),
+        Sigmoid(device),
+        
+        Dense((100, 10), device),
+        Sigmoid(device)    
     ]
     
-    network = Network(layers, cross_entropy, cross_entropy_prime, 0.1, 5)
+    network = Network(layers, cross_entropy, cross_entropy_prime, 0.1, 1)
     network.train(x_train, y_train)
     
     accuracy = network.accuracy(x_test, y_test)
@@ -42,5 +52,6 @@ def main():
     print(f"Final cost on test data: {loss}")
     print(f"Final Acurracy test data: {accuracy}")
     
+
 if __name__ == "__main__":
     main()
