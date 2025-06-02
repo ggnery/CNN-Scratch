@@ -46,8 +46,8 @@ class Convolutional(Layer):
         return self.output
     
     def backward(self, output_gradient: torch.Tensor, eta: float) -> torch.Tensor:
-        kernels_gradient = torch.zeros(self.kernels_shape)
-        input_gradient = torch.zeros(self.input_shape)
+        kernels_gradient = torch.zeros(self.kernels_shape, device= self.device)
+        input_gradient = torch.zeros(self.input_shape, device= self.device)
         
         for i in range(self.depth): # i = 0..d where d is the number of kernels   
             for j in range(self.input_depth): # j = 0..n where n is depth of the input 
