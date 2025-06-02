@@ -41,7 +41,7 @@ class Convolutional(Layer):
         for i in range(self.depth): # i = 0..d where d is the number of kernels   
             for j in range(self.input_depth): # j = 0..n where n is depth of the input
                 # Xj ⋆ Kj
-                self.output[i] += torch.tensor(signal.correlate2d(self.input[j].numpy(), self.kernels[i, j].numpy(), "valid"), device= self.device) 
+                self.output[i] += torch.tensor(signal.correlate2d(self.input[j].cpu().numpy(), self.kernels[i, j].cpu().numpy(), "valid"), device= self.device) 
         
         return self.output
     
@@ -52,12 +52,12 @@ class Convolutional(Layer):
         for i in range(self.depth): # i = 0..d where d is the number of kernels   
             for j in range(self.input_depth): # j = 0..n where n is depth of the input 
                 # ∂E/∂Kij = Xj ⋆ ∂E/∂Yi
-                kernels_gradient[i, j] = torch.tensor(signal.correlate2d(self.input[j].numpy(), output_gradient[i].numpy(), "valid"), device=self.device) 
+                kernels_gradient[i, j] = torch.tensor(signal.correlate2d(self.input[j].cpu().numpy(), output_gradient[i].cpu().numpy(), "valid"), device=self.device) 
             
                 #         n  
                 #∂E/∂Xj = ∑ ∂E/∂Yi * Kij
                 #         i      full 
-                input_gradient[j] += torch.tensor(signal.convolve2d(output_gradient[i].numpy(), self.kernels[i, j].numpy(), "full"), device=self.device)
+                input_gradient[j] += torch.tensor(signal.convolve2d(output_gradient[i].cpu().numpy(), self.kernels[i, j].cpu().numpy(), "full"), device=self.device)
    
         self.kernels -= eta * kernels_gradient
         self.bias -= eta * output_gradient
