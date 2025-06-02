@@ -33,7 +33,7 @@ class Convolutional(Layer):
         
     def forward(self, input: torch.Tensor) -> torch.Tensor:
         self.input = input
-        self.output = self.bias.clone()
+        self.output = self.bias.clone().to(self.device)
         
         #        n
         #Yi = Bi+∑ Xj ⋆ Kj, i = 0..d
