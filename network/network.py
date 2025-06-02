@@ -41,3 +41,17 @@ class Network:
             input = layer.forward(input)
             
         return input
+    
+    def accuracy(self, x_test: torch.Tensor, y_test: torch.Tensor) -> float:
+        results = [(torch.argmax(self.eval(x)), torch.argmax(y))
+                       for x, y in zip(x_test, y_test)]
+        
+        return sum(int(x == y) for (x, y) in results)/len(results)
+    
+    def mean_cost(self, x_test: torch.Tensor, y_test: torch.Tensor) -> float:
+        mean_cost = 0.0
+        for x, y in zip(x_test, y_test):
+            y_pred = self.eval(x)
+            mean_cost += self.loss(y, y_pred)/y_test.shape[0]
+            
+        return mean_cost

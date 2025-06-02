@@ -1,7 +1,7 @@
 import torch
 from .activation import Activation
 
-class Tahn(Activation):
+class Tanh(Activation):
     def __init__(self, device: torch.device):
         def tanh(x: torch.Tensor):
             return torch.tanh(x)
