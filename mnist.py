@@ -14,10 +14,7 @@ def preprocess_data(x: torch.Tensor, y: torch.Tensor, device: torch.device):
         y = torch.nn.functional.one_hot(y, num_classes=10)
         y = y.reshape(y.shape[0], 10, 1)
         
-        x.to(device)
-        y.to(device)
-        
-        return x, y
+        return x.to(device), y.to(device)
 
 
 def main():
@@ -37,7 +34,7 @@ def main():
         
     ]
     
-    network = Network(layers, cross_entropy, cross_entropy_prime, 0.1, 1)
+    network = Network(layers, cross_entropy, cross_entropy_prime, 0.1, 5)
     network.train(x_train, y_train)
     
     accuracy = network.accuracy(x_test, y_test)
