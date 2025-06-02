@@ -108,8 +108,7 @@ python xor.py
 - **Backward pass**:
   1) $$\frac{\partial E}{\partial K_{ij}} = X_j \star \frac{\partial E}{\partial Y_i}$$
   2) $$\frac{\partial E}{\partial B} = \frac{\partial E}{\partial Y}$$
-  3) 
-  $$\frac{\partial E}{\partial X_j} = \sum_{i=0}^{n} \frac{\partial E}{\partial Y_i} \underset{\text{full}}{*} K_{ij}$$
+  3) $$\frac{\partial E}{\partial X_j} = \sum_{i=0}^{n} \frac{\partial E}{\partial Y_i} \underset{\text{full}}{*} K_{ij}$$
 
 **Training Loop**:
 - Forward propagation through all layers
