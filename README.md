@@ -87,28 +87,48 @@ python xor.py
 
 **Dense Layer**:
 - **Forward pass**: 
-  $$Y = W \cdot X + B$$
+  ```math
+  Y = W \cdot X + B
+  ```
 
 - **Backward pass**:
-  1) $$\frac{\partial E}{\partial W} = \frac{\partial E}{\partial Y} \cdot X^T$$
-  2) $$\frac{\partial E}{\partial X} = W^T \cdot \frac{\partial E}{\partial Y}$$
-  3) $$\frac{\partial E}{\partial B} = \frac{\partial E}{\partial Y}$$
+  1) ```math
+     \frac{\partial E}{\partial W} = \frac{\partial E}{\partial Y} \cdot X^T
+     ```
+  2) ```math
+     \frac{\partial E}{\partial X} = W^T \cdot \frac{\partial E}{\partial Y}
+     ```
+  3) ```math
+     \frac{\partial E}{\partial B} = \frac{\partial E}{\partial Y}
+     ```
 
 **Activation Layer**:
 - **Forward pass**: 
-  $$Y = f(X)$$
+  ```math
+  Y = f(X)
+  ```
 
 - **Backward pass**: 
-  $$\frac{\partial E}{\partial X} = \frac{\partial E}{\partial Y} \odot f'(X)$$
+  ```math
+  \frac{\partial E}{\partial X} = \frac{\partial E}{\partial Y} \odot f'(X)
+  ```
 
 **Convolutional Layer**:
 - **Forward pass**: 
-  $$Y_i = B_i + \sum_{j=0}^{n} X_j \star K_{ij}, \quad i = 0..d$$
+  ```math
+  Y_i = B_i + \sum_{j=0}^{n} X_j \star K_{ij}, \quad i = 0..d
+  ```
 
 - **Backward pass**:
-  1) $$\frac{\partial E}{\partial K_{ij}} = X_j \star \frac{\partial E}{\partial Y_i}$$
-  2) $$\frac{\partial E}{\partial B} = \frac{\partial E}{\partial Y}$$
-  3) $$\frac{\partial E}{\partial X_j} = \sum_{i=0}^{n} \frac{\partial E}{\partial Y_i} \underset{\text{full}}{*} K_{ij}$$
+  1) ```math
+     \frac{\partial E}{\partial K_{ij}} = X_j \star \frac{\partial E}{\partial Y_i}
+     ```
+  2) ```math
+     \frac{\partial E}{\partial B} = \frac{\partial E}{\partial Y}
+     ```
+  3) ```math
+     \frac{\partial E}{\partial X_j} = \sum_{i=0}^{n} \frac{\partial E}{\partial Y_i} \underset{\text{full}}{*} K_{ij}
+     ```
 
 **Training Loop**:
 - Forward propagation through all layers
@@ -122,33 +142,49 @@ python xor.py
 
 **Mean Squared Error (MSE)**:
 - **Forward**: 
-  $$\text{MSE}(y_{true}, y_{pred}) = \frac{1}{n}\sum_{i=1}^{n}(y_{true} - y_{pred})^2$$
+  ```math
+  \text{MSE}(y_{true}, y_{pred}) = \frac{1}{n}\sum_{i=1}^{n}(y_{true} - y_{pred})^2
+  ```
 
 - **Derivative**: 
-  $$\frac{\partial \text{MSE}}{\partial y_{pred}} = \frac{2(y_{pred} - y_{true})}{n}$$
+  ```math
+  \frac{\partial \text{MSE}}{\partial y_{pred}} = \frac{2(y_{pred} - y_{true})}{n}
+  ```
 
 **Cross Entropy**:
 - **Forward**: 
-  $$\text{CE}(y_{true}, y_{pred}) = -\sum_{i} [y_{true} \log(y_{pred}) + (1 - y_{true}) \log(1 - y_{pred})]$$
+  ```math
+  \text{CE}(y_{true}, y_{pred}) = -\sum_{i} [y_{true} \log(y_{pred}) + (1 - y_{true}) \log(1 - y_{pred})]
+  ```
 
 - **Derivative**: 
-  $$\frac{\partial \text{CE}}{\partial y_{pred}} = \frac{1}{n}\left[\frac{1 - y_{true}}{1 - y_{pred}} - \frac{y_{true}}{y_{pred}}\right]$$
+  ```math
+  \frac{\partial \text{CE}}{\partial y_{pred}} = \frac{1}{n}\left[\frac{1 - y_{true}}{1 - y_{pred}} - \frac{y_{true}}{y_{pred}}\right]
+  ```
 
 ### Activation Functions
 
 **Sigmoid**:
 - **Forward**: 
-  $$\sigma(x) = \frac{1}{1 + e^{-x}}$$
+  ```math
+  \sigma(x) = \frac{1}{1 + e^{-x}}
+  ```
 
 - **Derivative**: 
-  $$\sigma'(x) = \sigma(x)(1 - \sigma(x))$$
+  ```math
+  \sigma'(x) = \sigma(x)(1 - \sigma(x))
+  ```
 
 **Tanh**:
 - **Forward**: 
-  $$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$
+  ```math
+  \tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}
+  ```
 
 - **Derivative**: 
-  $$\tanh'(x) = 1 - \tanh^2(x)$$
+  ```math
+  \tanh'(x) = 1 - \tanh^2(x)
+  ```
 
 ## 📊 Example Results
 
